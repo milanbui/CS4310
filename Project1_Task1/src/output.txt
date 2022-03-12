@@ -1,0 +1,11 @@
+----------------------------------- Multithreaded Sorting Application -----------------------------------
+Please enter a list of integers separated with spaces: 2 93 5 24 3 5 1 43 2
+
+Unsorted List of Integers: 
+2 93 5 24 3 5 1 43 2 
+
+List of Integers Before Merge: 
+2 5 24 93 1 2 3 5 43 
+
+Sorted List of Integers: 
+1 2 2 3 5 5 24 43 93 
