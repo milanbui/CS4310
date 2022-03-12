@@ -1,3 +1,10 @@
+/*********************************************************************************************
+ * Name      : Milan Bui
+ * Date      : 18 March 2022
+ * Class     : CS 4310.01
+ * Assignment: Project 1 - Task #2
+ * File Name : SchedulingAlgorithms.java
+ ********************************************************************************************/
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
