@@ -88,16 +88,17 @@ public class Main {
 					copy.add(new Process(processes.get(i)));
 				}
 				
+				int idleTime = 0;
 				
 				switch(selection) {
 				case 1: // FCFS
-					SchedulingAlgorithms.fcfs(copy);
+					idleTime = SchedulingAlgorithms.fcfs(copy);
 					break;
 				case 2: // SJF
-					SchedulingAlgorithms.sjf(copy);
+					idleTime = SchedulingAlgorithms.sjf(copy);
 					break;
 				case 3: // PREEMPTIVE PRIORITY
-					SchedulingAlgorithms.preemptivePriority(copy);
+					idleTime = SchedulingAlgorithms.preemptivePriority(copy);
 					break;
 				case 4: // ROUND ROBIN
 					int timeQuantum;
@@ -105,13 +106,24 @@ public class Main {
 					System.out.print("\nPlease enter the time quantum: ");
 					timeQuantum = userIn.nextInt();
 					
-					SchedulingAlgorithms.roundRobin(copy, timeQuantum);
+					idleTime = SchedulingAlgorithms.roundRobin(copy, timeQuantum);
 					break;
 				case 5:
 					System.out.println("\nProgram Terminated");
 					break;
 				default:
 					break;
+				}
+				
+				// CALC - calculates the average times and cpu rate
+				if(selection > 0 && selection < 5) {
+					double cpuRate = Calculations.calcCPUUtilization(copy, idleTime);
+					double awt = Calculations.calcAvgWaitingTime(copy);
+					double art = Calculations.calcAvgResponseTime(copy);
+					double att = Calculations.calcAvgTurnTime(copy);
+					
+					// OUTPUT - displays the stats
+					DisplayMethods.displayStats(awt, art, att, cpuRate);
 				}
 				
 			} while(selection != 5);

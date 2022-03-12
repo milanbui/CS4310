@@ -6,15 +6,20 @@ enum Status {
 }
 
 public class Process {
-	private int pid;
-	private int arrivalTime;
-	private int burstTime;
-	private int priority;       // lower number = higher priority
-	private Status status;
-	private int remainingTime;
-	private int endTime;
-	private int startTime;
+	
+	// INSTANCE VARIABLES
+	private int pid;            // process id
+	private int arrivalTime;    // process arrival time
+	private int burstTime;      // process burst time/CPU time
+	private int priority;       // process priority, lower number = higher priority
+	private Status status;      // process status
+	private int remainingTime;  // remaining process/CPU time needed by process
+	private int endTime;        // time process terminates
+	private int startTime;      // time process first uses CPU
 
+	/*****************************************************************************************
+	 * DEFAULT CONSTRUCTOR
+	 ****************************************************************************************/
 	public Process() {
 		this.pid           = 0;
 		this.arrivalTime   = 0;
@@ -26,6 +31,14 @@ public class Process {
 		this.startTime     = 0;
 	}
 	
+	/****************************************************************************************
+	 * CONSTRUCTOR
+	 * Initializes instance variables with given values
+	 * @param pid     process id
+	 * @param arrival arrival time
+	 * @param burst   burst time
+	 * @param p       priority
+	 ****************************************************************************************/
 	public Process(int pid, int arrival, int burst, int p) {
 		this.pid           = pid;
 		this.arrivalTime   = arrival;
@@ -37,6 +50,11 @@ public class Process {
 		this.startTime     = 0;
 	}
 	
+	/****************************************************************************************
+	 * CONSTRUCTOR
+	 * Initializes instance variables with values from given process. Essentially copies
+	 * @param process process to copy
+	 ***************************************************************************************/
 	public Process(Process process) {
 		this.pid           = process.pid;
 		this.arrivalTime   = process.arrivalTime;
@@ -47,6 +65,10 @@ public class Process {
 		this.endTime       = process.endTime;
 		this.startTime     = process.startTime;
 	}
+	
+/*********************************************************************************************
+ * GETTERS / ACCESSORS
+ ********************************************************************************************/
 	
 	public int getPid() {
 		return this.pid;
@@ -79,6 +101,10 @@ public class Process {
 	public int getStartTime() {
 		return this.startTime;
 	}
+	
+/*********************************************************************************************
+ * SETTERS / MUTATORS
+ ********************************************************************************************/
 	
 	public void setPid(int id) {
 		this.pid = id;
