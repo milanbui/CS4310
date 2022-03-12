@@ -14,31 +14,29 @@ public class SchedulingAlgorithms {
 		int processNum = 0;
 		int time = 0;
 		
-		Collections.sort(process, new SortByArrival());
-		
 		System.out.println("\n\n\nFIRST COME FIRST SERVE (FCFS)");
 		while(processNum < process.size() || !queue.isEmpty()) {
 			
-			while(processNum < process.size() && process.get(processNum).arrivalTime == time){
+			while(processNum < process.size() && process.get(processNum).getArrivalTime() == time){
 				queue.add(process.get(processNum));
 				processNum++;
 			}
 			
-			if(!queue.isEmpty() && queue.peek().status == Status.PROCESSING) {
-				queue.peek().remainingTime--;
+			if(!queue.isEmpty() && queue.peek().getStatus() == Status.PROCESSING) {
+				queue.peek().decrementRemTime();
 				
-				if(queue.peek().remainingTime == 0) {
+				if(queue.peek().getRemainingTime() == 0) {
 					
-					queue.peek().status = Status.TERMINATED;
-					queue.peek().endTime = time;
+					queue.peek().setStatus(Status.TERMINATED);
+					queue.peek().setEndTime(time);
 					queue.remove();
 				}
 			}
 			
-			if(!queue.isEmpty() && queue.peek().status == Status.WAITING) {
+			if(!queue.isEmpty() && queue.peek().getStatus() == Status.WAITING) {
 	
-				queue.peek().startTime = time;
-				queue.peek().status = Status.PROCESSING;
+				queue.peek().setStartTime(time);
+				queue.peek().setStatus(Status.PROCESSING);
 			}
 			
 
@@ -71,25 +69,23 @@ public class SchedulingAlgorithms {
 		int idleTime = 0;
 		int processNum = 0;
 		int time = 0;
-
-		Collections.sort(process, new SortByArrival());
 		
 		System.out.println("\n\n\nSHORTEST JOB FIRST (SJF)");
 		
 		while(processNum < process.size() || !activeProcess.isEmpty()) {
 			
-			while(processNum < process.size() && process.get(processNum).arrivalTime == time){
+			while(processNum < process.size() && process.get(processNum).getArrivalTime() == time){
 				waitQueue.add(process.get(processNum));
 				processNum++;
 			}
 			
-			if(!activeProcess.isEmpty() && activeProcess.peek().status == Status.PROCESSING) {
-				activeProcess.peek().remainingTime--;
+			if(!activeProcess.isEmpty() && activeProcess.peek().getStatus() == Status.PROCESSING) {
+				activeProcess.peek().decrementRemTime();
 				
-				if(activeProcess.peek().remainingTime == 0) {
+				if(activeProcess.peek().getRemainingTime() == 0) {
 					
-					activeProcess.peek().status = Status.TERMINATED;
-					activeProcess.peek().endTime = time;
+					activeProcess.peek().setStatus(Status.TERMINATED);
+					activeProcess.peek().setEndTime(time);
 					activeProcess.remove();
 					
 				}
@@ -97,8 +93,8 @@ public class SchedulingAlgorithms {
 			
 			if(activeProcess.isEmpty() && !waitQueue.isEmpty()) {
 				activeProcess.add(waitQueue.poll());
-				activeProcess.peek().startTime = time;
-				activeProcess.peek().status = Status.PROCESSING;
+				activeProcess.peek().setStartTime(time);
+				activeProcess.peek().setStatus(Status.PROCESSING);
 				
 			}
 			
@@ -130,37 +126,34 @@ public class SchedulingAlgorithms {
 		int idleTime = 0;
 		PriorityQueue<Process> queue = new PriorityQueue<Process>(process.size(), 
 				                                                  new SortByPriority());
-
-		Collections.sort(process, new SortByArrival());
-
 		
 		System.out.println("\n\n\nPREEMPTIVE PRIORITY");
 		while(processNum < process.size() || !queue.isEmpty()) {
 		
-			if(!queue.isEmpty() && queue.peek().status == Status.PROCESSING) {
-				queue.peek().remainingTime--;
+			if(!queue.isEmpty() && queue.peek().getStatus() == Status.PROCESSING) {
+				queue.peek().decrementRemTime();
 				
-				if(queue.peek().remainingTime == 0) {
-					queue.peek().status = Status.TERMINATED;
-					queue.peek().endTime = time;
+				if(queue.peek().getRemainingTime() == 0) {
+					queue.peek().setStatus(Status.TERMINATED);
+					queue.peek().setEndTime(time);
 					queue.remove();
 				}
 			}
 			
-			while(processNum < process.size() && process.get(processNum).arrivalTime == time){
+			while(processNum < process.size() && process.get(processNum).getArrivalTime() == time){
 				queue.add(process.get(processNum));
 				processNum++;
 			}
 			
-			if(!queue.isEmpty() && pid != queue.peek().pid) {
+			if(!queue.isEmpty() && pid != queue.peek().getPid()) {
 				setWaiting(process, pid);
 			}
 			
-			if(!queue.isEmpty() && queue.peek().status == Status.WAITING) {
+			if(!queue.isEmpty() && queue.peek().getStatus() == Status.WAITING) {
 
-				queue.peek().startTime = time;
-				queue.peek().status = Status.PROCESSING;
-				pid = queue.peek().pid;
+				queue.peek().setStartTime(time);
+				queue.peek().setStatus(Status.PROCESSING);
+				pid = queue.peek().getPid();
 			}
 			
 			
@@ -186,7 +179,6 @@ public class SchedulingAlgorithms {
 	public static void roundRobin(ArrayList<Process> process, int timeQuantum) {
 		
 		int idleTime = 0;
-		Collections.sort(process, new SortByArrival());
 		int time = 0;
 		int processNum = 0;
 		
@@ -199,24 +191,24 @@ public class SchedulingAlgorithms {
 		System.out.println("\n\n\nROUND ROBIN");
 		while(processNum < process.size() || !queue.isEmpty()) {
 			
-			while(processNum < process.size() && process.get(processNum).arrivalTime == time){
+			while(processNum < process.size() && process.get(processNum).getArrivalTime() == time){
 				queue.add(process.get(processNum));
 				processNum++;
 			}
 			
-			if(!queue.isEmpty() && queue.peek().status == Status.PROCESSING) {
-				queue.peek().remainingTime--;
+			if(!queue.isEmpty() && queue.peek().getStatus() == Status.PROCESSING) {
+				queue.peek().decrementRemTime();
 				currentQuantum++;
 				
-				if(currentQuantum == timeQuantum || queue.peek().remainingTime == 0) {
+				if(currentQuantum == timeQuantum || queue.peek().getRemainingTime() == 0) {
 					
-					if(queue.peek().remainingTime > 0) {
-						queue.peek().status = Status.WAITING;
+					if(queue.peek().getRemainingTime() > 0) {
+						queue.peek().setStatus(Status.WAITING);
 						queue.add(queue.poll());
 					}
 					else {
-						queue.peek().status = Status.TERMINATED;
-						queue.peek().endTime = time;
+						queue.peek().setStatus(Status.TERMINATED);
+						queue.peek().setEndTime(time);
 						queue.remove();
 					}
 					
@@ -225,10 +217,10 @@ public class SchedulingAlgorithms {
 			}
 			
 	
-			if(!queue.isEmpty() && queue.peek().status == Status.WAITING) {
+			if(!queue.isEmpty() && queue.peek().getStatus() == Status.WAITING) {
 
-				queue.peek().startTime = time;
-				queue.peek().status = Status.PROCESSING;
+				queue.peek().setStartTime(time);
+				queue.peek().setStatus(Status.PROCESSING);
 			}
 
 			if(queue.isEmpty() && processNum < process.size()) {
@@ -263,11 +255,11 @@ public class SchedulingAlgorithms {
 		
 		while(!isFound && index < process.size()) {
 			
-			if( process.get(index).pid == pid && 
-				process.get(index).status == Status.PROCESSING) {
+			if( process.get(index).getPid() == pid && 
+				process.get(index).getStatus() == Status.PROCESSING) {
 				
 				isFound = true;
-				process.get(index).status = Status.WAITING;
+				process.get(index).setStatus(Status.WAITING);
 			}
 			
 			index++;
@@ -284,7 +276,7 @@ public class SchedulingAlgorithms {
 		
 		Collections.sort(copy, new SortByEndTime());
 		
-		double totalTime = copy.get(0).endTime;
+		double totalTime = copy.get(0).getEndTime();
 		
 		double rate = ((totalTime - idleTime) / totalTime) * 100;
 		
@@ -297,7 +289,7 @@ public class SchedulingAlgorithms {
 		
 		for(int i = 0; i < process.size(); i++) {
 			Process current = process.get(i);
-			int waitTime = current.endTime - current.arrivalTime - current.burstTime;
+			int waitTime = current.getEndTime() - current.getArrivalTime() - current.getBurstTime();
 			sum += waitTime;
 		}
 		
@@ -313,7 +305,7 @@ public class SchedulingAlgorithms {
 		
 		for(int i = 0; i < process.size(); i++) {
 			Process current = process.get(i);
-			int respTime = current.startTime - current.arrivalTime;
+			int respTime = current.getStartTime() - current.getArrivalTime();
 			sum += respTime;
 		}
 		
@@ -330,7 +322,7 @@ public class SchedulingAlgorithms {
 		
 		for(int i = 0; i < process.size(); i++) {
 			Process current = process.get(i);
-			int time = current.endTime - current.arrivalTime;
+			int time = current.getEndTime() - current.getArrivalTime();
 			sum += time;
 		}
 		
@@ -369,13 +361,13 @@ public class SchedulingAlgorithms {
 		
 		for(int i = 0; i < size; i++) {
 			
-			if(process.get(i).arrivalTime <= time) {
+			if(process.get(i).getArrivalTime() <= time) {
 				
-				System.out.print(String.format("%-5d" , process.get(i).pid));
-				System.out.print(String.format("%-16d", process.get(i).arrivalTime));
-				System.out.print(String.format("%-14d", process.get(i).burstTime));
-				System.out.print(String.format("%-18d", process.get(i).remainingTime));
-				System.out.print(String.format("%-10s", process.get(i).status.toString()));
+				System.out.print(String.format("%-5d" , process.get(i).getPid()));
+				System.out.print(String.format("%-16d", process.get(i).getArrivalTime()));
+				System.out.print(String.format("%-14d", process.get(i).getBurstTime()));
+				System.out.print(String.format("%-18d", process.get(i).getRemainingTime()));
+				System.out.print(String.format("%-10s", process.get(i).getStatus().toString()));
 				System.out.println();
 				
 			}
@@ -406,14 +398,14 @@ public class SchedulingAlgorithms {
 		
 		for(int i = 0; i < size; i++) {
 			
-			if(process.get(i).arrivalTime <= time) {
+			if(process.get(i).getArrivalTime() <= time) {
 				
-				System.out.print(String.format("%-5d" , process.get(i).pid));
-				System.out.print(String.format("%-16d", process.get(i).arrivalTime));
-				System.out.print(String.format("%-14d", process.get(i).burstTime));
-				System.out.print(String.format("%-18d", process.get(i).remainingTime));
-				System.out.print(String.format("%-12d", process.get(i).priority));
-				System.out.print(String.format("%-10s", process.get(i).status.toString()));
+				System.out.print(String.format("%-5d" , process.get(i).getPid()));
+				System.out.print(String.format("%-16d", process.get(i).getArrivalTime()));
+				System.out.print(String.format("%-14d", process.get(i).getBurstTime()));
+				System.out.print(String.format("%-18d", process.get(i).getRemainingTime()));
+				System.out.print(String.format("%-12d", process.get(i).getPriority()));
+				System.out.print(String.format("%-10s", process.get(i).getStatus().toString()));
 				System.out.println();
 				
 			}
