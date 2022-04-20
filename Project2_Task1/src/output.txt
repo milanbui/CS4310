@@ -3,3 +3,14 @@ Enter page size (in KB): 2
 Enter a virtual address: 10500
 
 The address 10500 contains: page number 5 and offset 260
+
+----------------------------------------TASK #1----------------------------------------
+Enter page size (in KB): 12
+Enter a virtual address: 4294967296
+
+Invalid virtual address. Out of range [0 - 4294967296].
+
+Enter page size (in KB): 12
+Enter a virtual address: 4294967295
+
+The address 4294967295 contains: page number 349525 and offset 4095
