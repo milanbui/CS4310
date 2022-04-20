@@ -1,0 +1,5 @@
+----------------------------------------TASK #1----------------------------------------
+Enter page size (in KB): 2
+Enter a virtual address: 10500
+
+The address 10500 contains: page number 5 and offset 260
