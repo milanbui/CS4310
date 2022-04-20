@@ -1,0 +1,43 @@
+----------------------------------------TASK #2----------------------------------------
+Enter a logical block number: 1041
+Enter HD number of cylinders: 1000
+Enter HD number of tracks   : 20
+Enter HD number of sectors  : 63
+
+The logical block number 1041 is located at < 0, 16, 33 >
+
+
+----------------------------------------TASK #2----------------------------------------
+Enter a logical block number: 505037
+Enter HD number of cylinders: 1000
+Enter HD number of tracks   : 20
+Enter HD number of sectors  : 63
+
+The logical block number 505037 is located at < 400, 16, 29 >
+
+
+----------------------------------------TASK #2----------------------------------------
+Enter a logical block number: 2350
+Enter HD number of cylinders: 2000
+Enter HD number of tracks   : 10
+Enter HD number of sectors  : 80
+
+The logical block number 2350 is located at < 2, 9, 30 >
+
+
+
+----------------------------------------TASK #2----------------------------------------
+Enter a logical block number: 1240
+Enter HD number of cylinders: 0
+Enter HD number of tracks   : 20
+Enter HD number of sectors  : 0
+
+Invalid input. Block number must be non-negative. Other values must be greater than zero.
+
+Enter a logical block number: 1240
+Enter HD number of cylinders: 3567
+Enter HD number of tracks   : 20
+Enter HD number of sectors  : 100
+
+The logical block number 1240 is located at < 0, 12, 40 >
+
