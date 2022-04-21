@@ -57,7 +57,7 @@ public class Main {
 					
 					isInvalid = true;
 					System.out.println("Invalid virtual address. Out of range [0 - " 
-					                   + VA_SIZE + "].\n");
+					                   + (VA_SIZE - 1) + "].\n");
 					
 				}
 				else if(pageSize > VA_SIZE || pageSize <= 0) {
