@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -26,10 +26,8 @@ public class Main {
 		
 		// VARIABLES
 		final int NUM_OF_CYLINDERS = 200;
-//		final int HEAD_POSITION = Integer.valueOf(args[0]);
-//		final int PREV_POSITION = Integer.valueOf(args[1]);
-		final int HEAD_POSITION = 53;
-		final int PREV_POSITION = 30;
+		final int HEAD_POSITION = Integer.valueOf(args[0]);
+		final int PREV_POSITION = Integer.valueOf(args[1]);
 		int[] fcfsResult;
 		int[] sstfResult;
 		int[] scanResult;
@@ -45,25 +43,26 @@ public class Main {
 		System.out.println(String.format("%40s", "-").replace(' ', '-'));
 		System.out.println();
 		
-		// menu - random or file input
-		// >> if file input, prompt for file name (try catch)
 		
 		System.out.println(NUM_OF_CYLINDERS + " cylinders");
 		System.out.println("Current head position : " + HEAD_POSITION);
 		System.out.println("Previous head position: " + PREV_POSITION);
-		System.out.println();
 		
 		try {
 			do {
+				System.out.println();
 				System.out.println("How would you like to do?");
 				System.out.println("1. Generate 1000 randomized requests");
 				System.out.println("2. Read requests from input file");
 				System.out.println("3. Exit");
 				System.out.print("Enter selection: ");
 				selection = userIn.nextInt();
+				System.out.println();
 				
 				if (selection == 1 || selection == 2) {
+					
 					if (selection == 1) {
+						
 						String fileName = "RandomizedRequests" + fileNumber + ".txt";
 						File randomFile = new File(fileName);
 						randomFile.createNewFile();
@@ -76,7 +75,8 @@ public class Main {
 
 							int num = rand.nextInt(NUM_OF_CYLINDERS);
 							requests.add(num);
-							writer.write(String.format("%-6d", i) + "| " + Integer.toString(num) + "\n");
+							writer.write(String.format("%-6d", i) + "| " 
+							             + Integer.toString(num) + "\n");
 						}
 						
 						writer.close();
@@ -86,6 +86,7 @@ public class Main {
 
 						String filePath;
 						System.out.print("Enter full path to input file: ");
+						userIn.nextLine();
 						filePath = userIn.nextLine();
 
 						File inputFile = new File(filePath);
@@ -103,14 +104,17 @@ public class Main {
 						fileIn.close();
 					}
 
-					SchedulingAlgorithms disk = new SchedulingAlgorithms(HEAD_POSITION, PREV_POSITION, NUM_OF_CYLINDERS,
-							requests);
+					SchedulingAlgorithms disk = new SchedulingAlgorithms(HEAD_POSITION, 
+							                                             PREV_POSITION, 
+							                                             NUM_OF_CYLINDERS,
+							                                             requests);
 
 					fcfsResult = disk.fcfs();
 					sstfResult = disk.sstf();
 					scanResult = disk.scan();
 					cscanResult = disk.cscan();
-
+					
+					System.out.println();
 					System.out.print(String.format("%-12s", "Algorithm"));
 					System.out.print(String.format("%-23s", "Total Head Movements"));
 					System.out.print(String.format("%-30s", "Total Direction Changes"));
@@ -132,6 +136,8 @@ public class Main {
 					System.out.print(String.format("%-12s", "C-SCAN"));
 					System.out.print(String.format("%-25d", cscanResult[0]));
 					System.out.println(String.format("%-30s", cscanResult[1]));
+					System.out.println();
+					
 				} else if (selection == 3){
 					System.out.println("Program Terminated");
 				} 
@@ -141,13 +147,16 @@ public class Main {
 			} while(selection != 3);
 			
 			userIn.close();
-		} catch (NumberFormatException e) {
+		} catch(InputMismatchException e) {
+			System.err.println("Invalid Input | " + e.getClass());
+		}
+		catch (NumberFormatException e) {
 			
 			System.err.println(e.getMessage());
 			
 		} catch (FileNotFoundException e) {
 			
-			System.err.println(e.getMessage());
+			System.err.println("FILE NOT FOUND | " + e.getMessage());
 			
 		} catch (Exception e) {
 			System.err.println(e.getMessage() + "\n" + e.getCause() + "\n" 
