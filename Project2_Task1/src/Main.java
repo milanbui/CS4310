@@ -30,6 +30,7 @@ public class Main {
 		System.out.print(String.format("%40s", "-").replace(' ', '-'));
 		System.out.print("TASK #1");
 		System.out.println(String.format("%40s", "-").replace(' ', '-'));
+		System.out.println("\nVirtual Address Space Size: " + VA_SIZE + "\n");
 		
 		try {
 			
@@ -81,7 +82,7 @@ public class Main {
 			
 		}
 		catch(InputMismatchException e) {
-			System.err.println(e.getMessage());
+			System.err.println("INVALID INPUT | " + e.getClass());
 		}
 		catch(Exception e) {
 			System.err.println(e.getMessage() + "\n" + e.getCause() + "\n" 
