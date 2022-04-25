@@ -306,7 +306,10 @@ public class SchedulingAlgorithms {
 			// and set status to processing
 			if(!queue.isEmpty() && queue.peek().getStatus() == Status.WAITING) {
 
-				queue.peek().setStartTime(time);
+				if(queue.peek().getRemainingTime() ==  queue.peek().getBurstTime()) {
+					queue.peek().setStartTime(time);
+				}
+						
 				queue.peek().setStatus(Status.PROCESSING);
 			}
 			// else if no processes waiting, but more processes to arrive in future,
